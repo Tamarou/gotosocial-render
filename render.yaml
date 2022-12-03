@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: gotosocial
+    env: docker
+    repo: https://github.com/tamarou/gotosocial-render.git # optional
+    plan: starter # $7/mo - required for persistent disk
+    autoDeploy: false
+    disk:
+      name: data
+      mountPath: /data
+    envVars:
+      - key: GTS_HOST
+        value: gotosocial.onrender.com
+      - key: GTS_DB_ADDRESS
+        fromDatabase:
+          name: gotosocial
+          property: host
+      - key: GTS_DB_USER
+        fromDatabase:
+          name: gotosocial
+          property: user
+      - key: GTS_DB_PASSWORD
+        fromDatabase:
+          name: gotosocial
+          property: password
+databases:
+  - name: gotosocial
+    databaseName: gotosocial
+    plan: starter # $7/mo - required for persistent database
+    ipAllowList: [] # only allow internal connections
